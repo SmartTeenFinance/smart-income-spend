@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartTeenFinance - Auto Budget Planner</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0c1f3f;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #162d59;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0, 255, 120, 0.3);
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+    }
+    h1 {
+      color: #00ff95;
+      margin-bottom: 1rem;
+    }
+    input, select {
+      width: 90%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #00ff95;
+      color: #0c1f3f;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💡 Auto Budget Planner</h1>
+    <p>Smart recommendations for saving, investing, and spending.</p>
+
+    <select id="currency">
+      <option value="$" selected>$ (USD)</option>
+      <option value="₹">₹ (INR)</option>
+      <option value="€">€ (EUR)</option>
+      <option value="£">£ (GBP)</option>
+      <option value="¥">¥ (JPY)</option>
+      <option value="₱">₱ (PHP)</option>
+      <option value="₩">₩ (KRW)</option>
+      <option value="₦">₦ (NGN)</option>
+      <option value="R">R (ZAR)</option>
+      <option value="AED">AED (DHS)</option>
+    </select>
+
+    <input type="number" id="income" placeholder="Total Monthly Income" />
+    <input type="number" id="expenses" placeholder="Monthly Expenses" />
+
+    <button onclick="recommendPlan()">Recommend Budget</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function recommendPlan() {
+      const currency = document.getElementById("currency").value;
+      const income = parseFloat(document.getElementById("income").value) || 0;
+      const expenses = parseFloat(document.getElementById("expenses").value) || 0;
+
+      if (expenses > income) {
+        document.getElementById("result").textContent = "⚠️ Expenses can't be more than income!";
+        return;
+      }
+
+      const leftover = income - expenses;
+      const save = leftover * 0.3;
+      const invest = leftover * 0.5;
+      const spend = leftover * 0.2;
+
+      document.getElementById("result").innerHTML = `
+        💰 Save (30%): <strong>${currency}${save.toFixed(2)}</strong><br>
+        📈 Invest (50%): <strong>${currency}${invest.toFixed(2)}</strong><br>
+        🛍️ Spend (20%): <strong>${currency}${spend.toFixed(2)}</strong>
+      `;
+    }
+  </script>
+</body>
+</html>
